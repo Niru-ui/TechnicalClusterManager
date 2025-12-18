@@ -1,0 +1,10 @@
+__pycache__/
+*.pyc
+db.sqlite3
+*.pickle
+*.txt
+*.log
+.env
+proj04.tgz
+proj04Pitzer.tgz
+

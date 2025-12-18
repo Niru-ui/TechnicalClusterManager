@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>TSP Controller</title>
+    <style>
+        body {
+            background: #f5f5f7;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            margin: 0;
+        }
+
+        .card {
+            background: #ffffff;
+            padding: 40px;
+            width: 420px;
+            border-radius: 18px;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.08);
+        }
+
+        h2 {
+            margin-top: 0;
+            font-weight: 600;
+            color: #1d1d1f;
+            text-align: center;
+            letter-spacing: 0.3px;
+        }
+
+        label {
+            font-size: 15px;
+            color: #1d1d1f;
+            font-weight: 500;
+            display: block;
+            margin-bottom: 4px;
+        }
+
+        select, input {
+            width: 100%;
+            padding: 10px 12px;
+            margin-bottom: 18px;
+            border-radius: 10px;
+            border: 1px solid #d2d2d7;
+            background: #fefefe;
+            font-size: 15px;
+            transition: border 0.2s ease;
+        }
+
+        select:focus, input:focus {
+            outline: none;
+            border-color: #0071e3;
+        }
+
+        .button-row {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 15px;
+        }
+
+        .btn {
+            flex: 1;
+            margin: 0 4px;
+            padding: 12px 0;
+            text-align: center;
+            border-radius: 12px;
+            border: none;
+            font-size: 15px;
+            cursor: pointer;
+            font-weight: 500;
+            color: #ffffff;
+            transition: background 0.2s ease;
+        }
+
+        .btn-start { background: #34c759; }
+        .btn-start:hover { background: #28a745; }
+
+        .btn-stop { background: #ff3b30; }
+        .btn-stop:hover { background: #d93025; }
+
+        .btn-update { background: #0071e3; }
+        .btn-update:hover { background: #005bb5; }
+
+        .btn-reset { background: #8e8e93; }
+        .btn-reset:hover { background: #6e6e73; }
+
+        .status-box {
+            margin-top: 25px;
+            background: #f2f2f7;
+            padding: 18px;
+            border-radius: 16px;
+            font-size: 14px;
+            color: #3a3a3c;
+            white-space: pre-wrap;
+        }
+
+        .info {
+            font-size: 15px;
+            margin-bottom: 12px;
+            color: #1d1d1f;
+        }
+
+        .highlight {
+            font-weight: 600;
+            color: #0071e3;
+        }
+    </style>
+</head>
+
+<body>
+<div class="card">
+
+    <h2>TSP Controller</h2>
+
+    <form method="POST">
+        {% csrf_token %}
+
+        <!-- Weight Type -->
+        <label>Weight Type</label>
+        <select name="wt">
+            <option value="0" {% if wt == "0" %}selected{% endif %}>0</option>
+            <option value="1" {% if wt == "1" %}selected{% endif %}>1</option>
+            <option value="2" {% if wt == "2" %}selected{% endif %}>2</option>
+            <option value="3" {% if wt == "3" %}selected{% endif %}>3</option>
+            <option value="4" {% if wt == "4" %}selected{% endif %}>4</option>
+            <option value="5" {% if wt == "5" %}selected{% endif %}>5</option>
+            <option value="6" {% if wt == "6" %}selected{% endif %}>6</option>
+            <option value="7" {% if wt == "7" %}selected{% endif %}>7</option>
+        </select>
+
+        <label>Random Seed</label>
+        <input type="text" name="seed" value="{{ seed }}">
+
+        <label>Number of Tries</label>
+        <input type="text" name="tries" value="{{ tries }}">
+
+        <label>Batch Jobs</label>
+        <input type="text" name="bjobs" value="{{ bjobs }}">
+
+        <div class="info">
+            Best Distance: <span class="highlight">{{ best }}</span>
+        </div>
+
+        <div class="info">
+            Job Running:
+            {% if job_running %}
+                <span class="highlight">Yes</span>
+            {% else %}
+                <span class="highlight">No</span>
+            {% endif %}
+        </div>
+
+        <div class="button-row">
+            {% if job_running %}
+                <button class="btn btn-stop" name="btn" value="toggle">Stop</button>
+            {% else %}
+                <button class="btn btn-start" name="btn" value="toggle">Start</button>
+            {% endif %}
+            <button class="btn btn-update" name="btn" value="update">Update</button>
+            <button class="btn btn-reset" name="btn" value="reset">Reset</button>
+        </div>
+
+        <div class="status-box">
+            {{ status }}
+        </div>
+
+    </form>
+</div>
+</body>
+</html>
